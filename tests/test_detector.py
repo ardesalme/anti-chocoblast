@@ -1,4 +1,4 @@
-from smarttag_detector.detector import PresenceDetector
+from device_detector.detector import PresenceDetector
 
 
 def test_starts_unknown_then_absent_without_sighting():

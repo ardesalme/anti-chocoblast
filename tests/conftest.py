@@ -1,7 +1,7 @@
 """Stub out the `bleak` package for tests running where it isn't installed (e.g. non-macOS CI).
 
 BLE behavior itself is never exercised by the test suite - tests patch
-`smarttag_detector.ble_scanner.BleakScanner.discover` directly - so a minimal stub is enough to
+`device_detector.ble_scanner.BleakScanner.discover` directly - so a minimal stub is enough to
 satisfy the `from bleak import BleakScanner` import.
 """
 

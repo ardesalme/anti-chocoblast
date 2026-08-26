@@ -1,10 +1,10 @@
-"""Presence logic: tracks whether the SmartTag has been seen recently and flags absence timeouts."""
+"""Presence logic: tracks whether the device has been seen recently and flags absence timeouts."""
 
 import time
 
 
 class PresenceDetector:
-    """Tracks SmartTag presence based on RSSI sightings and a timeout.
+    """Tracks device presence based on RSSI sightings and a timeout.
 
     Call `update(rssi)` after each scan with the RSSI seen (or None if not seen). It returns the
     current state ("present" or "absent"). Use `just_went_absent()` / `just_went_present()` right
@@ -37,7 +37,7 @@ class PresenceDetector:
 
     def just_went_absent(self) -> bool:
         # Only fires on a present -> absent transition, not on first sighting ("unknown" -> absent),
-        # so the Mac isn't locked before the SmartTag has ever been detected.
+        # so the Mac isn't locked before the device has ever been detected.
         return self._previous_state == "present" and self.state == "absent"
 
     def just_went_present(self) -> bool:

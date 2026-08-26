@@ -1,7 +1,7 @@
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from smarttag_detector.scan_smarttags import SAMSUNG_COMPANY_ID, print_table, scan_once
+from device_detector.scan_devices import SAMSUNG_COMPANY_ID, print_table, scan_once
 
 
 def _fake_devices(entries):
@@ -17,12 +17,12 @@ def _fake_devices(entries):
     return result
 
 
-@patch("smarttag_detector.scan_smarttags.BleakScanner.discover", new_callable=AsyncMock)
+@patch("device_detector.scan_devices.BleakScanner.discover", new_callable=AsyncMock)
 def test_scan_once_flags_samsung_devices_and_sorts_by_rssi(mock_discover):
     mock_discover.return_value = _fake_devices(
         [
             ("AA:AA:AA:AA:AA:AA", "Other", -70, [0x004C]),
-            ("BB:BB:BB:BB:BB:BB", "SmartTag2", -40, [SAMSUNG_COMPANY_ID]),
+            ("BB:BB:BB:BB:BB:BB", "Device2", -40, [SAMSUNG_COMPANY_ID]),
         ]
     )
     devices = asyncio.run(scan_once(scan_time=1.0))
@@ -32,11 +32,11 @@ def test_scan_once_flags_samsung_devices_and_sorts_by_rssi(mock_discover):
 
 
 def test_print_table_samsung_only_filters_out_non_samsung(capsys):
-    from smarttag_detector.scan_smarttags import BleDevice
+    from device_detector.scan_devices import BleDevice
 
     devices = [
         BleDevice(address="AA:AA:AA:AA:AA:AA", name="Other", rssi=-70, is_samsung=False),
-        BleDevice(address="BB:BB:BB:BB:BB:BB", name="SmartTag2", rssi=-40, is_samsung=True),
+        BleDevice(address="BB:BB:BB:BB:BB:BB", name="Device2", rssi=-40, is_samsung=True),
     ]
     print_table(devices, samsung_only=True)
     out = capsys.readouterr().out

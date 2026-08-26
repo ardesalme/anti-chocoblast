@@ -1,9 +1,9 @@
 from unittest.mock import patch
 
-from smarttag_detector.actions import lock_screen
+from device_detector.actions import lock_screen
 
 
-@patch("smarttag_detector.actions.subprocess.run")
+@patch("device_detector.actions.subprocess.run")
 def test_lock_screen_invokes_osascript(mock_run):
     mock_run.return_value.returncode = 0
     assert lock_screen() is True
@@ -13,7 +13,7 @@ def test_lock_screen_invokes_osascript(mock_run):
     assert "command down" in args[2]
 
 
-@patch("smarttag_detector.actions.subprocess.run")
+@patch("device_detector.actions.subprocess.run")
 def test_lock_screen_returns_false_on_failure(mock_run):
     import subprocess
 
@@ -21,7 +21,7 @@ def test_lock_screen_returns_false_on_failure(mock_run):
     assert lock_screen() is False
 
 
-@patch("smarttag_detector.actions.subprocess.run")
+@patch("device_detector.actions.subprocess.run")
 def test_lock_screen_returns_false_when_osascript_missing(mock_run):
     mock_run.side_effect = FileNotFoundError()
     assert lock_screen() is False

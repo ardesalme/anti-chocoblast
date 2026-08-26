@@ -1,22 +1,24 @@
 [tool.poetry]
-name = "smarttag-detector"
+name = "device-detector"
 version = "1.0.0"
-description = "Detects a Samsung SmartTag over BLE and locks the Mac when it's out of range"
+description = "Detects a nearby BLE device and locks the Mac when it's out of range"
 authors = ["adesalme <adesalme@pm.me>"]
 readme = "README.md"
-packages = [{ include = "smarttag_detector" }]
+packages = [{ include = "device_detector" }]
 
 [tool.poetry.dependencies]
 python = "~3.11.6"
 bleak = "^0.21.1"
 pyyaml = "^6.0"
+face-recognition = "^1.3.0"
+opencv-python = "^5.0.0.93"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"
 
 [tool.poetry.scripts]
-smarttag-detector = "smarttag_detector.main:main"
-scan-smarttags = "smarttag_detector.scan_smarttags:main"
+device-detector = "device_detector.main:main"
+scan-devices = "device_detector.scan_devices:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

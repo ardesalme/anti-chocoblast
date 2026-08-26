@@ -1,7 +1,7 @@
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from smarttag_detector.ble_scanner import scan_for_device
+from device_detector.ble_scanner import scan_for_device
 
 
 def _fake_devices(entries):
@@ -16,14 +16,14 @@ def _fake_devices(entries):
     return result
 
 
-@patch("smarttag_detector.ble_scanner.BleakScanner.discover", new_callable=AsyncMock)
+@patch("device_detector.ble_scanner.BleakScanner.discover", new_callable=AsyncMock)
 def test_scan_for_device_found(mock_discover):
-    mock_discover.return_value = _fake_devices([("AA:BB:CC:DD:EE:FF", "SmartTag", -45)])
+    mock_discover.return_value = _fake_devices([("AA:BB:CC:DD:EE:FF", "Device", -45)])
     rssi = asyncio.run(scan_for_device("aa:bb:cc:dd:ee:ff"))
     assert rssi == -45
 
 
-@patch("smarttag_detector.ble_scanner.BleakScanner.discover", new_callable=AsyncMock)
+@patch("device_detector.ble_scanner.BleakScanner.discover", new_callable=AsyncMock)
 def test_scan_for_device_not_found(mock_discover):
     mock_discover.return_value = _fake_devices([("11:22:33:44:55:66", "Other", -50)])
     rssi = asyncio.run(scan_for_device("AA:BB:CC:DD:EE:FF"))

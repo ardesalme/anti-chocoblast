@@ -1,4 +1,4 @@
-"""Logging setup for SmartTag Detector."""
+"""Logging setup for Device Detector."""
 
 import logging
 

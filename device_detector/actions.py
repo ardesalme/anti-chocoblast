@@ -3,7 +3,7 @@
 import logging
 import subprocess
 
-logger = logging.getLogger("smarttag_detector.actions")
+logger = logging.getLogger("device_detector.actions")
 
 _LOCK_SCRIPT = (
     'tell application "System Events" to keystroke "q" using {control down, command down}'

@@ -1,9 +1,24 @@
-# SmartTag Detector configuration (Phase 1)
-smarttag:
-  mac_address: "AA:BB:CC:DD:EE:FF"  # Replace with your SmartTag's MAC (find it with: python3 -m smarttag_detector.ble_scanner)
-  timeout: 30       # Seconds of absence before locking
-  scan_interval: 3  # Seconds per scan window
-  tx_power: -56     # Minimum RSSI to count as "present" (higher = closer required)
+# Device Detector configuration (Phase 1)
+#
+# device.method: "ble" | "bluetooth" | "face"
+#
+#   ble        BLE address scan (e.g. a SmartTag/AirTag)
+#     device_id: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"  # find it with: poetry run scan-devices
+#     tx_power: -56                                      # minimum RSSI to count as "present" (higher = closer required)
+#
+#   bluetooth  classic pairing connection status (e.g. a phone)
+#     device_name: "Flip"  # paired device's Bluetooth name (see: system_profiler SPBluetoothDataType)
+#
+#   face       webcam face recognition
+#     face_image: "me.jpg"  # clear, front-facing reference photo
+#     camera_index: 0       # which webcam to use (0 = default/built-in)
+#     face_tolerance: 0.6   # lower = stricter match (0.4-0.6 typical)
+
+device:
+  method: "bluetooth"
+  device_name: "Flip"
+  timeout: 1
+  scan_interval: 1
 
 lock_behavior:
   action: "lock"
@@ -12,4 +27,4 @@ lock_behavior:
 
 logging:
   level: "INFO"
-  file: "/tmp/smarttag.log"
+  file: "/tmp/device_detector.log"
