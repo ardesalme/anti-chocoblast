@@ -10,15 +10,18 @@
 #     device_name: "Flip"  # paired device's Bluetooth name (see: system_profiler SPBluetoothDataType)
 #
 #   face       webcam face recognition
-#     face_image: "me.jpg"  # clear, front-facing reference photo
+#     face_images: "image"  # one or more reference photos: a file, a list of files, or a folder (every image inside is used) - more angles/lighting = more tolerant matching
 #     camera_index: 0       # which webcam to use (0 = default/built-in)
 #     face_tolerance: 0.6   # lower = stricter match (0.4-0.6 typical)
 
 device:
-  method: "bluetooth"
+  method: "face"
   device_name: "Flip"
-  timeout: 1
-  scan_interval: 1
+  face_images: "image"
+  camera_index: 0
+  face_tolerance: 0.7
+  timeout: 15
+  scan_interval: 3
 
 lock_behavior:
   action: "lock"

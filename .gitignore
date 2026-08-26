@@ -4,3 +4,10 @@ venv/
 .venv/
 *.egg-info/
 .pytest_cache/
+image/
+
+# reference photo for the "face" detection method - personal, never commit
+*.jpg
+*.jpeg
+*.png
+image

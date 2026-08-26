@@ -16,7 +16,7 @@ class Config:
     method: str
     device_id: str | None
     device_name: str | None
-    face_image: str | None
+    face_images: list[str]
     camera_index: int
     face_tolerance: float
     timeout: int
@@ -38,7 +38,9 @@ class Config:
 
         device_id = device_cfg.get("device_id")
         device_name = device_cfg.get("device_name")
-        face_image = device_cfg.get("face_image")
+        face_images = device_cfg.get("face_images")
+        if isinstance(face_images, str):
+            face_images = [face_images]
         rssi_threshold = device_cfg.get("tx_power")
 
         if method == "ble":
@@ -50,15 +52,15 @@ class Config:
                 raise ValueError("config.yaml is missing device.device_name (required for method: bluetooth)")
             rssi_threshold = None
         else:
-            if not face_image:
-                raise ValueError("config.yaml is missing device.face_image (required for method: face)")
+            if not face_images:
+                raise ValueError("config.yaml is missing device.face_images (required for method: face)")
             rssi_threshold = None
 
         return cls(
             method=method,
             device_id=device_id,
             device_name=device_name,
-            face_image=face_image,
+            face_images=face_images or [],
             camera_index=int(device_cfg.get("camera_index", 0)),
             face_tolerance=float(device_cfg.get("face_tolerance", 0.6)),
             timeout=int(device_cfg.get("timeout", 30)),

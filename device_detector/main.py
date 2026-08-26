@@ -9,7 +9,7 @@ from .ble_scanner import scan_for_device
 from .bt_connection import get_connection_rssi
 from .config import Config, load_config
 from .detector import PresenceDetector
-from .face_scanner import is_face_present, load_reference_encoding
+from .face_scanner import is_face_present, load_reference_encodings
 from .logger import get_logger
 
 
@@ -35,11 +35,11 @@ async def _make_checker(config: Config) -> Callable[[], Awaitable[int | None]]:
 
         return check
 
-    reference_encoding = await asyncio.to_thread(load_reference_encoding, config.face_image)
+    reference_encodings = await asyncio.to_thread(load_reference_encodings, config.face_images)
 
     async def check() -> int | None:
         present = await asyncio.to_thread(
-            is_face_present, reference_encoding, config.camera_index, config.face_tolerance
+            is_face_present, reference_encodings, config.camera_index, config.face_tolerance
         )
         await asyncio.sleep(config.scan_interval)
         return 0 if present else None
@@ -48,7 +48,11 @@ async def _make_checker(config: Config) -> Callable[[], Awaitable[int | None]]:
 
 
 def _label(config: Config) -> str:
-    return {"bluetooth": config.device_name, "face": config.face_image}.get(config.method, config.device_id)
+    if config.method == "bluetooth":
+        return config.device_name
+    if config.method == "face":
+        return ", ".join(config.face_images)
+    return config.device_id
 
 
 async def run(config_path: str, once: bool) -> None:

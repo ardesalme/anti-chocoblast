@@ -78,17 +78,20 @@ currently connected over classic Bluetooth.
 # method: "face" - webcam face recognition, no paired device needed at all
 device:
   method: "face"
-  face_image: "me.jpg"    # a clear, front-facing reference photo
-  camera_index: 0         # which webcam to use (0 = default/built-in)
-  face_tolerance: 0.6     # lower = stricter match (0.4-0.6 typical)
+  face_images: ["me.jpg", "me2.jpg"]  # one or more clear, front-facing reference photos
+  camera_index: 0                     # which webcam to use (0 = default/built-in)
+  face_tolerance: 0.6                 # lower = stricter match (0.4-0.6 typical)
   timeout: 30
   scan_interval: 3
 ```
 
-`face` checks each `scan_interval` whether the reference face is visible to
+`face` checks each `scan_interval` whether any reference face is visible to
 the webcam - useful if you'd rather not rely on any paired accessory at all,
 at the cost of needing a clear line of sight to the camera and being more
-sensitive to lighting/angle than a Bluetooth-based method.
+sensitive to lighting/angle than a Bluetooth-based method. Presence only
+requires *one* of your reference photos to match *one* of the faces seen -
+other people in frame don't prevent a match, and multiple reference photos
+(different angles/lighting) make matching more forgiving.
 
 ## 3. Run
 
