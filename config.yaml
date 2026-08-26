@@ -1,0 +1,15 @@
+# SmartTag Detector configuration (Phase 1)
+smarttag:
+  mac_address: "AA:BB:CC:DD:EE:FF"  # Replace with your SmartTag's MAC (find it with: python3 -m smarttag_detector.ble_scanner)
+  timeout: 30       # Seconds of absence before locking
+  scan_interval: 3  # Seconds per scan window
+  tx_power: -56     # Minimum RSSI to count as "present" (higher = closer required)
+
+lock_behavior:
+  action: "lock"
+  require_password: true
+  notification: true
+
+logging:
+  level: "INFO"
+  file: "/tmp/smarttag.log"
