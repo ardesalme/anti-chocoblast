@@ -12,6 +12,7 @@ dependencies = [
 
 [project.scripts]
 smarttag-detector = "smarttag_detector.main:main"
+scan-smarttags = "smarttag_detector.scan_smarttags:main"
 
 [tool.poetry]
 packages = [{ include = "smarttag_detector" }]

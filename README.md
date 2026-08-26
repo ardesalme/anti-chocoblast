@@ -19,11 +19,19 @@ poetry install
 Bring the SmartTag close to your Mac, then run:
 
 ```bash
-poetry run python -m smarttag_detector.ble_scanner
+poetry run scan-smarttags
 ```
 
-This lists nearby BLE devices sorted by signal strength. The SmartTag should be
-one of the strongest signals. Copy its MAC address into `config.yaml`.
+This scans repeatedly and lists nearby BLE devices sorted by signal strength,
+flagging devices that broadcast Samsung's manufacturer ID as likely SmartTags.
+Press Ctrl+C to stop once you've spotted it, then copy its MAC address into
+`config.yaml`. Useful flags:
+
+```bash
+poetry run scan-smarttags --samsung-only   # only show flagged Samsung devices
+poetry run scan-smarttags --cycles 3       # stop after 3 scan cycles instead of running forever
+poetry run scan-smarttags --scan-time 10   # widen each scan window (seconds)
+```
 
 ## 2. Configure
 
@@ -60,12 +68,13 @@ poetry run pytest
 
 ```
 smarttag_detector/
-  main.py         # entry point / detection loop
-  ble_scanner.py  # BLE discovery + targeted scan for the configured MAC
-  detector.py     # presence state machine (timeout-based)
-  actions.py      # screen lock via AppleScript
-  config.py       # config.yaml loading
-  logger.py       # logging setup
+  main.py             # entry point / detection loop
+  ble_scanner.py      # targeted scan for the configured MAC (used by main.py)
+  scan_smarttags.py   # standalone script to discover nearby SmartTags and their MAC address
+  detector.py         # presence state machine (timeout-based)
+  actions.py          # screen lock via AppleScript
+  config.py           # config.yaml loading
+  logger.py           # logging setup
 tests/            # unit tests (pure-logic + mocked BLE/subprocess, run on any OS)
 config.yaml
 pyproject.toml
