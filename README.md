@@ -3,14 +3,15 @@
 Detects the proximity of a Samsung SmartTag over Bluetooth LE and locks the Mac's
 screen when the tag has been out of range for too long.
 
-Requires macOS (10.13+) and a real Bluetooth adapter — BLE scanning and the screen
-lock action cannot be exercised on non-macOS systems.
+Requires macOS (10.13+), Python 3.11.6, and a real Bluetooth adapter — BLE
+scanning and the screen lock action cannot be exercised on non-macOS systems.
 
 ## Setup
 
+Dependencies are managed with [Poetry](https://python-poetry.org/):
+
 ```bash
-python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
+poetry install
 ```
 
 ## 1. Find your SmartTag's MAC address
@@ -18,7 +19,7 @@ pip install -r requirements.txt
 Bring the SmartTag close to your Mac, then run:
 
 ```bash
-python3 -m smarttag_detector.ble_scanner
+poetry run python -m smarttag_detector.ble_scanner
 ```
 
 This lists nearby BLE devices sorted by signal strength. The SmartTag should be
@@ -40,10 +41,19 @@ smarttag:
 
 ```bash
 # Continuous detection loop
-python3 -m smarttag_detector.main --config config.yaml
+poetry run python -m smarttag_detector.main --config config.yaml
 
 # Single scan cycle, for manual testing
-python3 -m smarttag_detector.main --config config.yaml --once
+poetry run python -m smarttag_detector.main --config config.yaml --once
+
+# Or, via the installed script entry point
+poetry run smarttag-detector --config config.yaml
+```
+
+## Tests
+
+```bash
+poetry run pytest
 ```
 
 ## Project layout
@@ -58,7 +68,7 @@ smarttag_detector/
   logger.py       # logging setup
 tests/            # unit tests (pure-logic + mocked BLE/subprocess, run on any OS)
 config.yaml
-requirements.txt
+pyproject.toml
 ```
 
 ## Phase 1 success criteria

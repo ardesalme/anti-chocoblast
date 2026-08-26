@@ -1,0 +1,24 @@
+[project]
+name = "smarttag-detector"
+version = "1.0.0"
+description = "Detects a Samsung SmartTag over BLE and locks the Mac when it's out of range"
+authors = [{ name = "llikanux", email = "llikanux@gmail.com" }]
+readme = "README.md"
+requires-python = "~3.11.6"
+dependencies = [
+    "bleak>=0.21.1,<0.22.0",
+    "pyyaml>=6.0,<7.0",
+]
+
+[project.scripts]
+smarttag-detector = "smarttag_detector.main:main"
+
+[tool.poetry]
+packages = [{ include = "smarttag_detector" }]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"
