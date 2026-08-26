@@ -1,7 +1,7 @@
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from smarttag_detector.ble_scanner import discover_devices, scan_for_device
+from smarttag_detector.ble_scanner import scan_for_device
 
 
 def _fake_devices(entries):
@@ -14,19 +14,6 @@ def _fake_devices(entries):
         adv.rssi = rssi
         result[address] = (device, adv)
     return result
-
-
-@patch("smarttag_detector.ble_scanner.BleakScanner.discover", new_callable=AsyncMock)
-def test_discover_devices_sorted_by_rssi(mock_discover):
-    mock_discover.return_value = _fake_devices(
-        [
-            ("AA:AA:AA:AA:AA:AA", "Weak", -80),
-            ("BB:BB:BB:BB:BB:BB", "Strong", -40),
-        ]
-    )
-    results = asyncio.run(discover_devices())
-    assert results[0][0] == "BB:BB:BB:BB:BB:BB"
-    assert results[1][0] == "AA:AA:AA:AA:AA:AA"
 
 
 @patch("smarttag_detector.ble_scanner.BleakScanner.discover", new_callable=AsyncMock)

@@ -16,6 +16,7 @@ pytest = "^8.0"
 
 [tool.poetry.scripts]
 smarttag-detector = "smarttag_detector.main:main"
+scan-smarttags = "smarttag_detector.scan_smarttags:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
